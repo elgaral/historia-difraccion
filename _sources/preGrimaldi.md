@@ -1,3 +1,16 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.14.0
+kernelspec:
+  display_name: Python 3 (ipykernel)
+  language: python
+  name: python3
+---
+
 (sec-inicios)=
 # ¿Desde cuándo la luz es una onda?
 
@@ -65,3 +78,14 @@ Sin embargo, a pesar del aplazamiento, fue inevitable el momento de la bifurcaci
 La luz es oficialmente una onda desde 1818 y una onda electromagnética desde 1865. Aunque hoy nos parezca el rasgo natural de la luz, lograr su aceptación no fue inmediato. El resultado del experimento que Young realizó en 1801 fue recibido fríamente por la Royal Society en Londres, y la memoria sobre difracción, que Fresnel preparó hacia 1815 para el concurso de la Academia de Ciencias de Francia, fue sometida durante meses a una cuidadosa indagación por errores, antes de que su verificación experimental le mereciera la distinción de Memoire Courroné. Sin contar el siglo y medio transcurrido desde que Grimaldi describió sus observaciones de difracción, advirtiendo que parecían indicar que la luz también ondulaba, y el siglo largo que había transcurrido desde que Christiaan Huygens (1629-1695) había publicado un ingenioso método para determinar geométricamente la propagación de frentes de onda luminosos, abrir definitivamente la puerta de la comunidad científica a la concepción ondulatoria de la luz tomó casi las dos primeras décadas del siglo 19.
 
 
+## Gráfica interactiva
+
+```{code-cell} ipython3
+
+import numpy as np
+
+a=1
+b=2
+print(a+b)
+
+```
