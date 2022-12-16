@@ -78,7 +78,12 @@ Sin embargo, a pesar del aplazamiento, fue inevitable el momento de la bifurcaci
 La luz es oficialmente una onda desde 1818 y una onda electromagnética desde 1865. Aunque hoy nos parezca el rasgo natural de la luz, lograr su aceptación no fue inmediato. El resultado del experimento que Young realizó en 1801 fue recibido fríamente por la Royal Society en Londres, y la memoria sobre difracción, que Fresnel preparó hacia 1815 para el concurso de la Academia de Ciencias de Francia, fue sometida durante meses a una cuidadosa indagación por errores, antes de que su verificación experimental le mereciera la distinción de Memoire Courroné. Sin contar el siglo y medio transcurrido desde que Grimaldi describió sus observaciones de difracción, advirtiendo que parecían indicar que la luz también ondulaba, y el siglo largo que había transcurrido desde que Christiaan Huygens (1629-1695) había publicado un ingenioso método para determinar geométricamente la propagación de frentes de onda luminosos, abrir definitivamente la puerta de la comunidad científica a la concepción ondulatoria de la luz tomó casi las dos primeras décadas del siglo 19.
 
 
-## Gráfica interactiva
+## Código interactiva
+Este es un ejemplo de la posibilidad de integrar código ejecutable en el texto, en el ejemplo se tiene la ecuación
+
+$$ c = a + b $$ (ejemplo-1)
+
+Para ejecutar el código en la parte de arriba, donde hay un cohete, debes presionar la opción "Live Code". Esta genera unos botones que permiten correr el código, el cuál ya puedes también modificar.
 
 ```{code-cell} ipython3
 
@@ -86,6 +91,124 @@ import numpy as np
 
 a=1
 b=2
-print(a+b)
+print('c = {}'.format(a+b))
 
 ```
+
+Y este es un ejemplo de una gráfica interactiva que no necesita activar el botón de arriba a menos que quieras cambiar el código.
+
+```{code-cell} ipython3
+
+import plotly.graph_objects as go
+
+import pandas as pd
+
+# Load data
+df = pd.read_csv(
+    "https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv")
+df.columns = [col.replace("AAPL.", "") for col in df.columns]
+
+# Create figure
+fig = go.Figure()
+
+fig.add_trace(
+    go.Scatter(x=list(df.Date), y=list(df.High)))
+
+# Set title
+fig.update_layout(
+    title_text="Time series with range slider and selectors"
+)
+
+# Add range slider
+fig.update_layout(
+    xaxis=dict(
+        rangeselector=dict(
+            buttons=list([
+                dict(count=1,
+                     label="1m",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=6,
+                     label="6m",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=1,
+                     label="YTD",
+                     step="year",
+                     stepmode="todate"),
+                dict(count=1,
+                     label="1y",
+                     step="year",
+                     stepmode="backward"),
+                dict(step="all")
+            ])
+        ),
+        rangeslider=dict(
+            visible=True
+        ),
+        type="date"
+    )
+)
+
+fig.show()
+    
+```
+
+Se pueden hacer muchas cosas, por ejemplo esconder el código y solo mostrar la gráfica:
+
+```{code-cell} ipython3
+:tags: ["hide-input"]
+
+import plotly.graph_objects as go
+
+import pandas as pd
+
+# Load data
+df = pd.read_csv(
+    "https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv")
+df.columns = [col.replace("AAPL.", "") for col in df.columns]
+
+# Create figure
+fig = go.Figure()
+
+fig.add_trace(
+    go.Scatter(x=list(df.Date), y=list(df.High)))
+
+# Set title
+fig.update_layout(
+    title_text="Time series with range slider and selectors"
+)
+
+# Add range slider
+fig.update_layout(
+    xaxis=dict(
+        rangeselector=dict(
+            buttons=list([
+                dict(count=1,
+                     label="1m",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=6,
+                     label="6m",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=1,
+                     label="YTD",
+                     step="year",
+                     stepmode="todate"),
+                dict(count=1,
+                     label="1y",
+                     step="year",
+                     stepmode="backward"),
+                dict(step="all")
+            ])
+        ),
+        rangeslider=dict(
+            visible=True
+        ),
+        type="date"
+    )
+)
+
+fig.show()
+    
