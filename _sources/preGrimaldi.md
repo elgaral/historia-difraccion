@@ -78,8 +78,8 @@ Sin embargo, a pesar del aplazamiento, fue inevitable el momento de la bifurcaci
 La luz es oficialmente una onda desde 1818 y una onda electromagnética desde 1865. Aunque hoy nos parezca el rasgo natural de la luz, lograr su aceptación no fue inmediato. El resultado del experimento que Young realizó en 1801 fue recibido fríamente por la Royal Society en Londres, y la memoria sobre difracción, que Fresnel preparó hacia 1815 para el concurso de la Academia de Ciencias de Francia, fue sometida durante meses a una cuidadosa indagación por errores, antes de que su verificación experimental le mereciera la distinción de Memoire Courroné. Sin contar el siglo y medio transcurrido desde que Grimaldi describió sus observaciones de difracción, advirtiendo que parecían indicar que la luz también ondulaba, y el siglo largo que había transcurrido desde que Christiaan Huygens (1629-1695) había publicado un ingenioso método para determinar geométricamente la propagación de frentes de onda luminosos, abrir definitivamente la puerta de la comunidad científica a la concepción ondulatoria de la luz tomó casi las dos primeras décadas del siglo 19.
 
 
-## Código interactiva
-Este es un ejemplo de la posibilidad de integrar código ejecutable en el texto, en el ejemplo se tiene la ecuación
+## Código ejecutable
+Este es un ejemplo de la posibilidad de integrar código ejecutable en el texto. Primero te muestro como se vería uan ecuación y luego un código que permite ser ejecutucado: 
 
 $$ c = a + b $$ (ejemplo-1)
 
@@ -95,120 +95,50 @@ print('c = {}'.format(a+b))
 
 ```
 
-Y este es un ejemplo de una gráfica interactiva que no necesita activar el botón de arriba a menos que quieras cambiar el código.
+El siguente es un código que inicialmente está escondido pero que uno puede dar click para verlo. También usando "Live Code" puede modificar los parámetros y la gráfica. En este ejemplo está la ley de refracción don de la flecha negra es el haz incidente, la roja el haz reflejado, y la verde el haz refractado. La línea azul es la interfaz y las líneas grises son guías. La ley de refracción dice
+
+$$ n_1 \sin(\theta_i) = n_2 \sin(\theta_r)  $$ (ejemplo-2)
+
+Donde $n_1$ es el índice de refracción en el medio del haz incidente, $n_2$ es el índice de refracción en el medio del haz refractado, $\theta_i$ es el ángulo de incidencia (medido con respecto a la normal a la interfaz, y $\theta_2$ es el ángulo de refracción. 
 
 ```{code-cell} ipython3
+:tags: [hide-input]
 
-import plotly.graph_objects as go
+#### Ejecute "Live Code" en la parte superior de la página, cambie los siguientes parámetros y oprima "Run" para observar las nuevas 
+###  direcciones de los haces.
 
-import pandas as pd
+angulo = 15
+n1 = 1.9
+n2 = 1.3
+############################################
 
-# Load data
-df = pd.read_csv(
-    "https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv")
-df.columns = [col.replace("AAPL.", "") for col in df.columns]
 
-# Create figure
-fig = go.Figure()
 
-fig.add_trace(
-    go.Scatter(x=list(df.Date), y=list(df.High)))
+import matplotlib.pyplot as plt
+import numpy as np
+if (n1/n2)*np.sin(angulo*np.pi/180) >= 1: ang2 = np.pi/2
+else: ang2 = np.arcsin((n1/n2)*np.sin(angulo*np.pi/180))
+ax = plt.axes()
+ax.arrow(-np.sin(angulo*np.pi/180), np.cos(angulo*np.pi/180), np.sin(angulo*np.pi/180),-np.cos(angulo*np.pi/180), head_width=0.05,
+        head_length=0.1, fc='k', ec='k',length_includes_head=True)
+ax.arrow(0, 0, np.sin(angulo*np.pi/180) ,np.cos(angulo*np.pi/180), head_width=0.05, head_length=0.1, fc='r', ec='r',
+        length_includes_head=True)
+ax.arrow(0, 0, np.sin(ang2) ,-np.cos(ang2), head_width=0.05, head_length=0.1, fc='g', ec='g',
+        length_includes_head=True)
+ax.arrow(0, 0, np.sin(angulo*np.pi/180),-np.cos(angulo*np.pi/180), head_width=None, head_length=None, fc='gray', ec='gray',
+        length_includes_head=True,ls='--')
+ax.hlines(0,-1,1,linestyles='-',colors='blue')
+ax.vlines(0,-1,1,linestyles='--',colors='gray')
+ax.text(0.8,0.1,r'$n_1$')
+ax.text(0.8,-0.1,r'$n_2$')
+ax.set_title(r'$\theta_i$ = {} °, $n_1=$ {}, $n_2=$ {}'.format(angulo,n1,n2))
+ax.get_xaxis().set_visible(False)
+ax.get_yaxis().set_visible(False)
+ax.set_xlim(-1,1)
+ax.set_ylim(-1,1)
+plt.axis('off')
+plt.show()
 
-# Set title
-fig.update_layout(
-    title_text="Time series with range slider and selectors"
-)
-
-# Add range slider
-fig.update_layout(
-    xaxis=dict(
-        rangeselector=dict(
-            buttons=list([
-                dict(count=1,
-                     label="1m",
-                     step="month",
-                     stepmode="backward"),
-                dict(count=6,
-                     label="6m",
-                     step="month",
-                     stepmode="backward"),
-                dict(count=1,
-                     label="YTD",
-                     step="year",
-                     stepmode="todate"),
-                dict(count=1,
-                     label="1y",
-                     step="year",
-                     stepmode="backward"),
-                dict(step="all")
-            ])
-        ),
-        rangeslider=dict(
-            visible=True
-        ),
-        type="date"
-    )
-)
-
-fig.show()
     
 ```
 
-Se pueden hacer muchas cosas, por ejemplo esconder el código y solo mostrar la gráfica:
-
-```{code-cell} ipython3
-:tags: ["hide-input"]
-
-import plotly.graph_objects as go
-
-import pandas as pd
-
-# Load data
-df = pd.read_csv(
-    "https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv")
-df.columns = [col.replace("AAPL.", "") for col in df.columns]
-
-# Create figure
-fig = go.Figure()
-
-fig.add_trace(
-    go.Scatter(x=list(df.Date), y=list(df.High)))
-
-# Set title
-fig.update_layout(
-    title_text="Time series with range slider and selectors"
-)
-
-# Add range slider
-fig.update_layout(
-    xaxis=dict(
-        rangeselector=dict(
-            buttons=list([
-                dict(count=1,
-                     label="1m",
-                     step="month",
-                     stepmode="backward"),
-                dict(count=6,
-                     label="6m",
-                     step="month",
-                     stepmode="backward"),
-                dict(count=1,
-                     label="YTD",
-                     step="year",
-                     stepmode="todate"),
-                dict(count=1,
-                     label="1y",
-                     step="year",
-                     stepmode="backward"),
-                dict(step="all")
-            ])
-        ),
-        rangeslider=dict(
-            visible=True
-        ),
-        type="date"
-    )
-)
-
-fig.show()
-    
